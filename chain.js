@@ -7,7 +7,7 @@ global.chain = '';
 global.previous_chain = '';
 global.chain_minimum_window = 2;
 
-//DB: Does track fit chain?
+// Does track fit chain?
 global.trackFitsChain = function (track, chain) {
     // When there is no chain, any track fits.
     if (!chain) {
@@ -43,4 +43,14 @@ global.trackFitsChain = function (track, chain) {
     // If we've reached the end and haven't found a match, the track
     // doesn't fit.
     return false;
+}
+
+// Clean up a track
+global.normalizeTrack = function (track) {
+    var return_me = track;
+    return_me = return_me.replace(/(\s|^)(a|an|the)(\s|$)/gi, "$1$3");
+    // Clean up whitespace
+    return_me = return_me.trim();
+    return_me = return_me.replace(/  +/g, " ");
+    return return_me;
 }

@@ -1,6 +1,10 @@
 var buster = require("buster");
 var myLib = require("../chain.js");
 
+////
+//// FITS
+////
+
 //
 // Base cases
 //
@@ -112,5 +116,26 @@ buster.testCase("trackFitsChain", {
     }
 });
 */
+
+////
+//// NORMALIZE
+////
+buster.testCase("normalizeTrack", {
+    "track A Shot In The Arm returns Shot In Arm": function () {
+        var track = "A Shot In The Arm";
+        var expected = "Shot In Arm";
+        var actual = global.normalizeTrack(track);
+        assert.equals(actual, expected);
+     }
+});
+
+buster.testCase("normalizeTrack", {
+    "track The Bart The returns Bart": function () {
+        var track = "A Shot In The Arm";
+        var expected = "Shot In Arm";
+        var actual = global.normalizeTrack(track);
+        assert.equals(actual, expected);
+     }
+});
 
 // :map T :!node test/chain-test.js<CR>
