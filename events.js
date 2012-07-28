@@ -319,15 +319,16 @@ exports.newSongEventHandler = function (data) {
     }
 
     //DB: Handle the chain
-    var message = "";
-    if (trackFitsChain(currentsong.song, global.chain)) {
-        message = "#WINNING";
+    var result = trackFitsChain(currentsong.song, global.chain)
+    if (result) {
+        bot.speak('#WINNING -- match was ');
         global.chain += ' ' + currentsong.song;
     } else {
-        message = "#FAIL";
+        bot.speak('#FAIL -- could not connect');
+        global.previous_chain = global.chain;
         global.chain = '';
     }
-    bot.speak(message + ' -- Chain is now: ' + global.chain);
+    bot.speak(' -- Chain is now: ' + global.chain);
 }
 
 //Runs when a dj steps down

@@ -79,7 +79,23 @@ buster.testCase("trackFitsChain", {
     }
 });
 
+//
 // Real world cases
+//
+
+// Don't blow up if track contains characters special to regex.
+buster.testCase("trackFitsChain", {
+    "track ()[]*?/ chain A Shot In The Arm false": function () {
+        refute(global.trackFitsChain("()[]*?/", "A Shot In The Arm"));
+    }
+});
+
+buster.testCase("trackFitsChain", {
+    "track ()[]*?/ chain ()your mom() true": function () {
+        assert(global.trackFitsChain("()[]*?/", "()your mom()"));
+    }
+});
+
 buster.testCase("trackFitsChain", {
     "track Armistice chain A Shot In The Arm true": function () {
         assert(global.trackFitsChain("Armistice", "A Shot In The Arm"));

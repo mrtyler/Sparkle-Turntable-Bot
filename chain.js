@@ -1,4 +1,10 @@
+// http://stackoverflow.com/questions/2593637/how-to-escape-regular-expression-in-javascript
+RegExp.quote = function(str) {
+        return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+};
+
 global.chain = '';
+global.previous_chain = '';
 global.chain_minimum_window = 2;
 
 //DB: Does track fit chain?
@@ -24,9 +30,9 @@ global.trackFitsChain = function (track, chain) {
     window_size = global.chain_minimum_window;
     while (window_size <= track.length) {
         start_query = track.slice(-window_size);
-        start_re = new RegExp('^' + start_query, 'i');
+        start_re = new RegExp('^' + RegExp.quote(start_query), 'i');
         end_query = track.slice(0, window_size);
-        end_re = new RegExp(end_query + '$', 'i');
+        end_re = new RegExp(RegExp.quote(end_query) + '$', 'i');
 
         if (chain.match(start_re) || chain.match(end_re)) {
             return true;
