@@ -1,6 +1,6 @@
 var config = module.exports;
 
-config["My tests"] = {
+config["chain tests"] = {
     rootPath: "../",
     environment: "node", // or "browser"
     sources: [

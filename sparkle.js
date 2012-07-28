@@ -18,11 +18,11 @@ global.version = '[Sparkle] Version 1.0.7';
 
 global.fs = require('fs');
 global.url = require('url'); 
+//DB:
+require('./chain.js');
 
 global.Bot;
 global.bot;
-//DB:
-global.chain = '';
 global.config;
 global.mysql;
 global.client;
@@ -225,7 +225,6 @@ function initializeModules () {
             } catch (e) {
                 console.log('Error loading command from file <' + filenames[i] + '>: ' + e);
             }
-        // tmp
         }
     }
     
@@ -753,9 +752,4 @@ global.handleCommand = function (name, userid, text, source) {
             bot.pm('But... you PM\'d me that. Do you think I\'m stupid? >:T', userid);
         }
     }    
-}
-
-//DB: Does track fit chain?
-global.trackFitsChain = function (track, chain) {
-    return true;
 }
