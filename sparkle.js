@@ -211,13 +211,22 @@ function initializeModules () {
     //Load commands
     try {
         var filenames = fs.readdirSync('./commands');
-        for (i in filenames) {
-            var command = require('./commands/' + filenames[i]);
-            commands.push({name: command.name, handler: command.handler, hidden: command.hidden,
-                enabled: command.enabled, matchStart: command.matchStart});
-        }
     } catch (e) {
-        //
+        console.log('Error discovering commands: ' + e);
+    }
+
+    for (i in filenames) {
+        // Ignore vim swap files.
+        if (!filenames[i].match(/\..*\.sw?/)) {
+            try {
+                var command = require('./commands/' + filenames[i]);
+                commands.push({name: command.name, handler: command.handler, hidden: command.hidden,
+                    enabled: command.enabled, matchStart: command.matchStart});
+            } catch (e) {
+                console.log('Error loading command from file <' + filenames[i] + '>: ' + e);
+            }
+        // tmp
+        }
     }
     
     //Load http commands
