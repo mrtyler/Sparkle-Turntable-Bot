@@ -317,6 +317,17 @@ exports.newSongEventHandler = function (data) {
             }
         }
     }
+
+    //DB: Handle the chain
+    var message = "";
+    if (trackFitsChain(currentsong.song, global.chain)) {
+        message = "#WINNING";
+        global.chain += ' ' + currentsong.song;
+    } else {
+        message = "#FAIL";
+        global.chain = '';
+    }
+    bot.speak(message + ' -- Chain is now: ' + global.chain);
 }
 
 //Runs when a dj steps down

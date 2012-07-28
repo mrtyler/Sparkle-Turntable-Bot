@@ -21,6 +21,8 @@ global.url = require('url');
 
 global.Bot;
 global.bot;
+//DB:
+global.chain = '';
 global.config;
 global.mysql;
 global.client;
@@ -742,4 +744,9 @@ global.handleCommand = function (name, userid, text, source) {
             bot.pm('But... you PM\'d me that. Do you think I\'m stupid? >:T', userid);
         }
     }    
+}
+
+//DB: Does track fit chain?
+global.trackFitsChain = function (track, chain) {
+    return true;
 }
