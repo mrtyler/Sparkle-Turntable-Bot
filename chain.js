@@ -29,12 +29,15 @@ global.trackFitsChain = function (track, chain) {
     // they match, the track fits.
     window_size = global.chain_minimum_window;
     while (window_size <= track.length) {
-        start_query = track.slice(-window_size);
+        var normalized_track = global.normalize(track);
+        var normalized_chain = global.normalize(chain);
+
+        start_query = normalized_track.slice(-window_size);
         start_re = new RegExp('^' + RegExp.quote(start_query), 'i');
-        end_query = track.slice(0, window_size);
+        end_query = normalized_track.slice(0, window_size);
         end_re = new RegExp(RegExp.quote(end_query) + '$', 'i');
 
-        if (chain.match(start_re) || chain.match(end_re)) {
+        if (normalized_chain.match(start_re) || normalized_chain.match(end_re)) {
             return true;
         }
         window_size++;
@@ -46,7 +49,7 @@ global.trackFitsChain = function (track, chain) {
 }
 
 // Clean up a track
-global.normalizeTrack = function (track) {
+global.normalize = function (track) {
     var return_me = track;
     return_me = return_me.replace(/(\s|^)(a|an|the)(\s|$)/gi, "$1$3");
     // Clean up whitespace

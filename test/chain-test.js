@@ -106,7 +106,6 @@ buster.testCase("trackFitsChain", {
     }
 });
 
-/*
 //
 // Ignore a, an, the
 //
@@ -115,25 +114,24 @@ buster.testCase("trackFitsChain", {
         assert(global.trackFitsChain("Shot Shot", "A Shot In The Arm"));
     }
 });
-*/
 
 ////
 //// NORMALIZE
 ////
-buster.testCase("normalizeTrack", {
+buster.testCase("normalize", {
     "track A Shot In The Arm returns Shot In Arm": function () {
         var track = "A Shot In The Arm";
         var expected = "Shot In Arm";
-        var actual = global.normalizeTrack(track);
+        var actual = global.normalize(track);
         assert.equals(actual, expected);
      }
 });
 
-buster.testCase("normalizeTrack", {
+buster.testCase("normalize", {
     "track The Bart The returns Bart": function () {
-        var track = "A Shot In The Arm";
-        var expected = "Shot In Arm";
-        var actual = global.normalizeTrack(track);
+        var track = "The Bart The";
+        var expected = "Bart";
+        var actual = global.normalize(track);
         assert.equals(actual, expected);
      }
 });
