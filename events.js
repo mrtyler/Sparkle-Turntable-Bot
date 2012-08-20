@@ -319,16 +319,23 @@ exports.newSongEventHandler = function (data) {
     }
 
     //DB: Handle the chain
-    var result = trackFitsChain(currentsong.song, global.chain)
+    var result = trackFitsChain(currentsong.song, global.getChain())
     if (result) {
-        bot.speak('#WINNING -- match was ');
-        global.chain += ' ' + currentsong.song;
+        bot.speak('#WINNING -- match was ' + result);
+        if (result === global.BEFORE_MATCH) {
+            global.prependChain(currentsong.song);
+        } else if (result === global.AFTER_MATCH) {
+            global.appendChain(currentsong.song);
+        } else {
+            // a random true means some other condition. handle
+            // separately just in case (and disregarding yagni).
+            global.appendChain(currentsong.song);
+        }
     } else {
         bot.speak('#FAIL -- could not connect');
-        global.previous_chain = global.chain;
-        global.chain = '';
+        global.setChain('');
     }
-    bot.speak(' -- Chain is now: ' + global.chain);
+    bot.speak(' -- Chain is now: ' + global.getChain());
 }
 
 //Runs when a dj steps down

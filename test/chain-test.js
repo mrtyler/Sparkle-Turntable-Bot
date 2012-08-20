@@ -2,6 +2,20 @@ var buster = require("buster");
 var myLib = require("../chain.js");
 
 ////
+//// CHAIN STATE MANAGEMENT
+////
+
+buster.testCase("chainStateManagement", {
+    "get_set_Chain": function () {
+        expected = "foo";
+        global.setChain(expected);
+        actual = global.getChain();
+        assert.equals(actual, expected);
+    }
+});
+
+
+////
 //// FITS
 ////
 
@@ -22,7 +36,7 @@ buster.testCase("trackFitsChain", {
 
 buster.testCase("trackFitsChain", {
     "track ab chain ab true": function () {
-        assert(global.trackFitsChain("ab", "ab"));
+        assert.equals(global.trackFitsChain("ab", "ab"), global.BEFORE_MATCH);
     }
 });
 
@@ -95,8 +109,8 @@ buster.testCase("trackFitsChain", {
 });
 
 buster.testCase("trackFitsChain", {
-    "track ()[]*?/ chain ()your mom() true": function () {
-        assert(global.trackFitsChain("()[]*?/", "()your mom()"));
+    "track [][]*?/ chain []your mom[] true": function () {
+        assert(global.trackFitsChain("[][]*?/", "[]your mom[]"));
     }
 });
 
@@ -131,6 +145,15 @@ buster.testCase("normalize", {
     "track The Bart The returns Bart": function () {
         var track = "The Bart The";
         var expected = "Bart";
+        var actual = global.normalize(track);
+        assert.equals(actual, expected);
+     }
+});
+
+buster.testCase("normalize", {
+    "track People are Strange (Some Mix) returns People are Strange": function () {
+        var track = "People are Strange (Some Mix)";
+        var expected = "People are Strange";
         var actual = global.normalize(track);
         assert.equals(actual, expected);
      }
