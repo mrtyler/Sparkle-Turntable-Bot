@@ -1,6 +1,6 @@
 // http://stackoverflow.com/questions/2593637/how-to-escape-regular-expression-in-javascript
 RegExp.quote = function(str) {
-        return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+    return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 };
 
 global.chain = ''
@@ -92,9 +92,6 @@ global.normalize = function (track) {
     // "Dude (Looks Like A Lady)") are legit. Most stuff on Turntable
     // seems to be of the "(some remix)" variety, which we don't want to
     // use for chaining.
-    //
-    // Note that () are special regex characters which have been
-    // escaped, so we have to mached the escaped form '\('.
     return_me = return_me.replace(/\(.*\)/gi, "");
 
     // Clean up whitespace
