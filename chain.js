@@ -6,8 +6,10 @@ RegExp.quote = function(str) {
 global.chain = ''
 global.previous_chain = '';
 global.chain_minimum_window = 2;
+
 global.AFTER_MATCH = "after";
 global.BEFORE_MATCH = "before";
+global.MAX_UNDO = 100
 
 ////
 //// CHAIN STATE MANAGEMENT
@@ -24,12 +26,31 @@ global.setChain = function (chain) {
     global.chain = chain;
 }
 
+// reset
+// destroys history. mostly useful for testing.
+global._resetChain = function () {
+    global.chain = '';
+    global.previous_chain = '';
+}
+
 // revert
 global.revertChain = function () {
     var replaced = global.chain;
     global.chain = global.previous_chain;
     global.previous_chain = replaced;
     return global.chain;
+}
+// history
+global.chainHistory = function(ii) {
+    if (ii == null) {
+        ii = 1;
+    }
+    if (ii == 1) {
+        chain_string = "chain";
+    } else {
+        chain_string = "chains";
+    }
+    return ii + " " + chain_string + " ago: " + global.previous_chain;
 }
 
 // prepend
