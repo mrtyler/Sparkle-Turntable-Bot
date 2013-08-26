@@ -3,13 +3,19 @@ RegExp.quote = function(str) {
     return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 };
 
-global.chain = ''
-global.previous_chain = '';
-global.chain_minimum_window = 2;
+global.MAX_HISTORY = 100;
+global.CHAIN_MINIMUM_WINDOW = 2;
 
 global.AFTER_MATCH = "after";
 global.BEFORE_MATCH = "before";
-global.MAX_UNDO = 100
+
+// reset
+// destroys history. mostly useful for initialization and testing.
+global._resetChain = function () {
+    global.chain = [''];
+    global.chain_idx = 0;
+}
+global._resetChain();
 
 ////
 //// CHAIN STATE MANAGEMENT
@@ -17,40 +23,45 @@ global.MAX_UNDO = 100
 //
 // getter
 global.getChain = function () {
-    return global.chain;
+    return global.chain[global.chain_idx];
 }
 
 // setter
 global.setChain = function (chain) {
-    global.previous_chain = global.chain;
-    global.chain = chain;
-}
-
-// reset
-// destroys history. mostly useful for testing.
-global._resetChain = function () {
-    global.chain = '';
-    global.previous_chain = '';
+    global.chain_idx = global.chain_idx + 1;
+    global.chain[global.chain_idx % global.MAX_HISTORY] = chain;
 }
 
 // revert
-global.revertChain = function () {
-    var replaced = global.chain;
-    global.chain = global.previous_chain;
-    global.previous_chain = replaced;
-    return global.chain;
+global.undoChain = function () {
+    global.chain_idx = global.chain_idx - 1;
+    if (global.chain_idx < 0) {
+        global.chain_idx = 0;
+    }
+    return global.getChain();
 }
 // history
 global.chainHistory = function(ii) {
+    // default
     if (ii == null) {
         ii = 1;
     }
-    if (ii == 1) {
-        chain_string = "chain";
-    } else {
-        chain_string = "chains";
+
+    if (ii > global.MAX_HISTORY || ii > global.chain_idx) {
+        return "History only goes back " + Math.min(global.MAX_HISTORY, global.chain_idx) + " chains";
     }
-    return ii + " " + chain_string + " ago: " + global.previous_chain;
+    var historical_chain_idx = global.chain_idx - ii;
+    if (historical_chain_idx < 0) {
+        historical_chain_idx = historical_chain_idx + global.MAX_HISTORY;
+    }
+
+    if (ii == 1) {
+        chain_or_chains = "chain";
+    } else {
+        chain_or_chains = "chains";
+    }
+
+    return ii + " " + chain_or_chains + " ago: " + global.chain[historical_chain_idx];
 }
 
 // prepend
@@ -73,7 +84,7 @@ global.trackFitsChain = function (track, chain) {
 
     // If the chain is less than the minimum window size, any track
     // fits.
-    if (chain.length < global.chain_minimum_window) {
+    if (chain.length < global.CHAIN_MINIMUM_WINDOW) {
         return true;
     }
 

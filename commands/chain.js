@@ -10,8 +10,8 @@ exports.handler = function(data) {
         if (/^set /.test(subcommand)) {
             global.setChain(subcommand.substring('set '.length));
             reply = 'Set chain to: ' + global.getChain();
-        } else if(/^revert/.test(subcommand)) {
-            global.revertChain();
+        } else if(/^undo/.test(subcommand)) {
+            global.undoChain();
             reply = 'Revert chain to: ' + global.getChain();
         } else if(/^before/.test(subcommand)) {
             global.prependChain(currentsong.song || '');
