@@ -55,16 +55,13 @@ buster.testCase("chainStateManagement", {
     },
 
     "MAX_HISTORY 1 no chains history 2 fails": function () {
-        var max_history_saved = global.MAX_HISTORY;
         global.MAX_HISTORY = 1
         actual = global.chainHistory(2);
         expected = "History only goes back 0 chains";
         assert.equals(actual, expected);
-        global.MAX_HISTORY = max_history_saved;
     },
 
     "MAX_HISTORY 1 one chain history 2 fails": function () {
-        var max_history_saved = global.MAX_HISTORY;
         global.MAX_HISTORY = 1
 
         global.setChain("first");
@@ -72,7 +69,6 @@ buster.testCase("chainStateManagement", {
         expected = "History only goes back 1 chains";
         assert.equals(actual, expected);
 
-        global.MAX_HISTORY = max_history_saved;
     },
 
     "three chains has history 2 and history 1": function () {

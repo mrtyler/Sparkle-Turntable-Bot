@@ -25,6 +25,14 @@ exports.handler = function(data) {
         } else if(/^append /.test(subcommand)) {
             global.appendChain(subcommand.substring('append '.length));
             reply = 'Append. Chain is now: ' + global.getChain();
+        } else if(/^dump/.test(subcommand)) {
+            console.log(global.chain);
+            console.log(global.chain_idx);
+            console.log("max " + global.MAX_HISTORY);
+            reply = 'Dumped debug info to console.';
+        } else if(/^max /.test(subcommand)) {
+            global.MAX_HISTORY = parseInt(subcommand.substring('max '.length), 10);
+            reply = 'History max reset to ' + global.MAX_HISTORY;
         } else {
             reply = 'Current chain: ' + global.getChain();
         }

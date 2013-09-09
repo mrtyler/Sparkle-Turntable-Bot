@@ -3,7 +3,6 @@ RegExp.quote = function(str) {
     return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 };
 
-global.MAX_HISTORY = 100;
 global.CHAIN_MINIMUM_WINDOW = 2;
 
 global.AFTER_MATCH = "after";
@@ -14,6 +13,7 @@ global.BEFORE_MATCH = "before";
 global._resetChain = function () {
     global.chain = [''];
     global.chain_idx = 0;
+    global.MAX_HISTORY = 100;
 }
 global._resetChain();
 
@@ -32,7 +32,7 @@ global.setChain = function (chain) {
     global.chain[global.chain_idx % global.MAX_HISTORY] = chain;
 }
 
-// revert
+// undo
 global.undoChain = function () {
     global.chain_idx = global.chain_idx - 1;
     if (global.chain_idx < 0) {
@@ -40,6 +40,14 @@ global.undoChain = function () {
     }
     return global.getChain();
 }
+
+// redo
+global.redoChain = function () {
+    global.chain_idx = global.chain_idx + 1;
+    // ### some safety check
+    return global.getChain();
+}
+
 // history
 global.chainHistory = function(ii) {
     // default
