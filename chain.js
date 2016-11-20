@@ -23,7 +23,7 @@ global._resetChain();
 //
 // getter
 global.getChain = function () {
-    return global.chain[global.chain_idx];
+    return global.chain[global.chain_idx % global.MAX_HISTORY];
 }
 
 // setter

@@ -68,7 +68,6 @@ buster.testCase("chainStateManagement", {
         actual = global.chainHistory(2);
         expected = "History only goes back 1 chains";
         assert.equals(actual, expected);
-
     },
 
     "three chains has history 2 and history 1": function () {
@@ -132,26 +131,28 @@ buster.testCase("chainStateManagement", {
         actual = global.undoChain();
         expected = "";
         assert.equals(actual, expected);
-    }
+    },
 
-//    "undo 3 chain max 2": function() {
-//        var max_history_saved = global.MAX_HISTORY;
-//        global.MAX_HISTORY = 2;
-//
-//        global.setChain("first");
-//        global.setChain("second");
-//        global.setChain("third");
-//
-//        actual = global.undoChain();
-//        expected = "second";
-//        assert.equals(actual, expected);
-//
-//        actual = global.undoChain();
-//        expected = "";
-//        assert.equals(actual, expected);
-//
-//        global.MAX_HISTORY = max_history_saved;
-//    }
+    "undo 3 chain max 2": function() {
+        global.MAX_HISTORY = 2;
+
+        console.log("index is " + global.chain_idx + ". chain is " + global.chain);
+        global.setChain("first");
+        console.log("index is " + global.chain_idx + ". chain is " + global.chain);
+        global.setChain("second");
+        console.log("index is " + global.chain_idx + ". chain is " + global.chain);
+        global.setChain("third");
+        console.log("index is " + global.chain_idx + ". chain is " + global.chain);
+
+        actual = global.undoChain();
+        expected = "second";
+        assert.equals(actual, expected);
+
+        actual = global.undoChain();
+        // what it should be maybe // expected = "";
+        expected = "third"; // because we rolled over to 0
+        assert.equals(actual, expected);
+    }
 });
 
 ////

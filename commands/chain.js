@@ -12,7 +12,10 @@ exports.handler = function(data) {
             reply = 'Set chain to: ' + global.getChain();
         } else if(/^undo/.test(subcommand)) {
             global.undoChain();
-            reply = 'Revert chain to: ' + global.getChain();
+            reply = 'Undo. Chain is now: ' + global.getChain();
+        } else if(/^redo/.test(subcommand)) {
+            global.redoChain();
+            reply = 'Redo. Chain is now: ' + global.getChain();
         } else if(/^before/.test(subcommand)) {
             global.prependChain(currentsong.song || '');
             reply = 'Before. Chain is now: ' + global.getChain();
